@@ -3,10 +3,34 @@ var myMap = L.map("map", {
     zoom: 5
   });
 
-// // Define a markerSize function that will give each city a different radius based on its population
-// function markerSize(depth) {
-//     return depth / 2;
-//   }
+// Define a markerSize function that will give each city a different radius based on its population
+function markerSize(m) {
+    return m*5000;
+  };
+
+function markerColor(d) {
+    return d > 90 ? 'red' :
+           d > 70  ? 'orange' :
+           d > 50  ? '#feb72a' :
+           d > 30  ? '#f7db10' :
+           d > 10  ? '#ddf400' :
+                      '#a3f700';
+};
+// function markerColor(depth) {
+//     if (depth > 90) {
+//         return 'red'
+//     } else if (depth > 70) {
+//         return 'orange'
+//     } else if (depth > 50) {
+//         return '#feb72a'
+//     } else if (depth > 30) {
+//         return '#f7db10'
+//     } else if (depth > 10) {
+//         return '#ddf400'
+//     } else {
+//         return '#a3f700'
+//     }
+// };
   
 L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
@@ -22,7 +46,7 @@ var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.ge
 d3.json(url, function(data) {
     // console.log(data);
     var featureData = data.features;
-    console.log(featureData);
+    // console.log(featureData);
 
     // Define array to hold created markers
     // var markers = []; 
@@ -35,15 +59,38 @@ d3.json(url, function(data) {
 
             // markers.push(
                 L.circle([location[1],location[0]], {
-                    stroke: false,
+                    stroke: true,
+                    weight: 1,
                     fillOpacity: 0.75,
-                    color: "white",
-                    fillColor: "red",
-                    radius: parseInt(location[2])
+                    color: "black",
+                    fillColor: markerColor(location[2]),
+                    radius: markerSize(featureData[i].properties.mag)
                 }).bindPopup("<h3>" + featureData[i].properties.place +
                 "</h3><hr><p>" + new Date(featureData[i].properties.time) + "</p>").addTo(myMap); 
         }
 
-    }
+    };
 
-}); 
+});
+
+
+    // Set up the legend
+    var legend = L.control({ position: "bottomright" });
+    legend.onAdd = function() {
+        var div = L.DomUtil.create("div", "info legend");
+        var grades = [-10,10,30,50,70,90];
+        // var colors = ['#a3f700','#ddf400','#f7db10','#feb72a','orange','red']
+        var labels = [];
+
+        // loop through density intervals and generate a label with a colored square for each interval
+        for (var i=0; i<grades.length; i++) {
+            div.innerHTME += 
+                '<i style="background:' + markerColor(grades[i]+1) + '"></i>' + 
+                grades[i] + (grades[i+1] ? '&ndash;' + grades[i+1] + '<br>' : '+');
+        }
+
+        return div;
+    };
+
+    // Adding legend to the map
+    legend.addTo(myMap);
