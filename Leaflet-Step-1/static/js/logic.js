@@ -1,6 +1,6 @@
 var myMap = L.map("map", {
-    center: [39.7392, -104.9903],
-    zoom: 5
+    center: [36.1699, -115.1398],
+    zoom: 6
   });
 
 // Define a markerSize function that will give each city a different radius based on its population
@@ -83,10 +83,10 @@ d3.json(url, function(data) {
         var labels = [];
 
         // loop through density intervals and generate a label with a colored square for each interval
-        for (var i=0; i<grades.length; i++) {
-            div.innerHTME += 
-                '<i style="background:' + markerColor(grades[i]+1) + '"></i>' + 
-                grades[i] + (grades[i+1] ? '&ndash;' + grades[i+1] + '<br>' : '+');
+        for (var i = 0; i < grades.length; i++) {
+            div.innerHTML +=
+                '<i style="background:' + markerColor(grades[i] + 1) + '"></i> ' +
+                grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
         }
 
         return div;
