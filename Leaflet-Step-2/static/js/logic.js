@@ -37,8 +37,8 @@ var layers = {
 
 // Create our map, giving it the streetmap and earthquakes layers to display on load
 var myMap = L.map("map", {
-    center: [36.1699, -115.1398],
-    zoom: 6,
+    center: [40.7128, -74.0060],
+    zoom: 3,
     layers: [satellitemap, layers.earthquakes]
 });
 layers.tectonic.addTo(myMap);
@@ -61,7 +61,7 @@ var tectonicUrl = "https://raw.githubusercontent.com/fraxen/tectonicplates/maste
 
 // Define a markerSize function that will give each city a different radius based on its population
 function markerSize(m) {
-    return m * 5000;
+    return m * 30000;
 };
 
 function markerColor(d) {
@@ -129,14 +129,18 @@ d3.json(tectonicUrl, function (tectData) {
     var tectFeature = tectData.features;
     // console.log(tectFeature);
 
+    locations = []; 
+
     for (var i = 0; i < tectFeature.length; i++) {
         var coordinates = tectFeature[i].geometry.coordinates;
         // console.log(coordinates)
 
+        locations.push(
+            coordinates.map(coordinate => [coordinate[1], coordinate[0]])
+        );
         // create tectonic lines the the coordinates
-        var lines = L.polyline([coordinates[1], coordinates[0]],
-            { color: "red" });
-
-        lines.addTo(myMap)
+        L.polyline(locations,{ 
+            color: "orange" 
+        }).addTo(layers.tectonic);
     }
 });
