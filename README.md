@@ -26,3 +26,11 @@ Attached is a map using Leaflet that plots **all earthquakes from the past 7 day
 
 
 <img width="1379" alt="Screen Shot 2020-11-13 at 00 00 51" src="https://user-images.githubusercontent.com/55970064/99034664-54c27a00-2543-11eb-998f-189cbdd82e9f.png">
+
+
+### Level 2: More Data
+
+
+This step plot a second data set on the map to illustrate the relationship between tectonic plates and seismic activity. Data on tectonic plates pulled from https://github.com/fraxen/tectonicplates.
+
+
