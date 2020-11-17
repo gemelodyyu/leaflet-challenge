@@ -117,12 +117,14 @@ legend.onAdd = function () {
     // var colors = ['#a3f700','#ddf400','#f7db10','#feb72a','orange','red']
     var labels = [];
 
+    div.innerHTML += "<h4>Earthquake Depth</h4>";
     // loop through density intervals and generate a label with a colored square for each interval
     for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
             '<i style="background:' + markerColor(grades[i] + 1) + '"></i> ' +
             grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-    }
+    }; 
+
 
     return div;
 };
