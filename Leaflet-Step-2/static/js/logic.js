@@ -64,13 +64,20 @@ function markerSize(m) {
     return m * 30000;
 };
 
-function markerColor(d) {
-    return d > 90 ? 'red' :
-        d > 70 ? 'orange' :
-            d > 50 ? '#feb72a' :
-                d > 30 ? '#f7db10' :
-                    d > 10 ? '#ddf400' :
-                        '#a3f700';
+function markerColor(depth) {
+    if (depth > 90) {
+        return 'red'
+    } else if (depth > 70) {
+        return 'orange'
+    } else if (depth > 50) {
+        return '#feb72a'
+    } else if (depth > 30) {
+        return '#f7db10'
+    } else if (depth > 10) {
+        return '#ddf400'
+    } else {
+        return '#a3f700'
+    }
 };
 
 // call earthquake data
@@ -123,24 +130,11 @@ legend.onAdd = function () {
 // Adding legend to the map
 legend.addTo(myMap);
 
-
 // call tectonic data 
 d3.json(tectonicUrl, function (tectData) {
-    var tectFeature = tectData.features;
-    // console.log(tectFeature);
 
-    locations = []; 
-
-    for (var i = 0; i < tectFeature.length; i++) {
-        var coordinates = tectFeature[i].geometry.coordinates;
-        // console.log(coordinates)
-
-        locations.push(
-            coordinates.map(coordinate => [coordinate[1], coordinate[0]])
-        );
-        // create tectonic lines the the coordinates
-        L.polyline(locations,{ 
-            color: "orange" 
-        }).addTo(layers.tectonic);
-    }
+    // console.log(tectData);
+    L.geoJson(tectData, {
+        color: "orange"
+    }).addTo(layers.tectonic);
 });

@@ -8,29 +8,22 @@ function markerSize(m) {
     return m*5000;
   };
 
-function markerColor(d) {
-    return d > 90 ? 'red' :
-           d > 70  ? 'orange' :
-           d > 50  ? '#feb72a' :
-           d > 30  ? '#f7db10' :
-           d > 10  ? '#ddf400' :
-                      '#a3f700';
+
+function markerColor(depth) {
+    if (depth > 90) {
+        return 'red'
+    } else if (depth > 70) {
+        return 'orange'
+    } else if (depth > 50) {
+        return '#feb72a'
+    } else if (depth > 30) {
+        return '#f7db10'
+    } else if (depth > 10) {
+        return '#ddf400'
+    } else {
+        return '#a3f700'
+    }
 };
-// function markerColor(depth) {
-//     if (depth > 90) {
-//         return 'red'
-//     } else if (depth > 70) {
-//         return 'orange'
-//     } else if (depth > 50) {
-//         return '#feb72a'
-//     } else if (depth > 30) {
-//         return '#f7db10'
-//     } else if (depth > 10) {
-//         return '#ddf400'
-//     } else {
-//         return '#a3f700'
-//     }
-// };
   
 L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
